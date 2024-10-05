@@ -25,7 +25,7 @@ jobs:
       port: '22'
       connect_timeout: 10s
       first_ssh: |
-       sudo curl -l -u admin: 117a481d226bc34ddacf20f47eb85f24eb http://localhost:8080/job/project_deployment/build?token=token-project
+       sudo curl -l -u admin:117a481d226bc34ddacf20f47eb85f24eb http://localhost:8080/job/project_deployment/build?token=token-project
       
 
 
