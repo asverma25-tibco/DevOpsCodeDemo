@@ -1,0 +1,37 @@
+name: CICD using Maven and Jenkins via GitHub Actions
+on:
+ push:
+ workflow_dispatch:
+jobs:
+ CICDJob:
+  runs-on: ubuntu-latest
+  steps:
+   -name: clone the repo on the ubuntu server
+    uses: actions/checkout@v4
+   -name: Install Maven and Java on ubuntu server
+    uses: actions/setup-java@v3
+    with: 
+     distribution: 'temurin'
+     java-version: '11'
+     cache: 'maven'
+   -name: Build the source code and generate the war file executable
+    run: mvn package
+   -name: Connect ot the Lab and deploy the code on the tomcat9 server via Jenkins pipeline
+    uses: cross-the-world/ssh-scp-ssh-pipelines@latest
+    with:
+     host: '52.66.234.191'
+     user: 'labuser'
+     pass: 'Nuvelabs123$'
+     port: '22'
+     connect_timeout: 10s
+     first_ssh: |
+      sudo chmod 777 /var/lib/tomcat9/webapps
+     scp: |
+      './target/*war' => /var/lib/tomcat9/webapps
+     last_ssh: |
+      sudo systemctl restart tomcat9
+
+
+     
+  
+ 
